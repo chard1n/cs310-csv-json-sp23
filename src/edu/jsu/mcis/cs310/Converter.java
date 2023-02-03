@@ -1,3 +1,6 @@
+//Author: Jonathan Cade Hardin
+//Class: CS 310 Software Engineering 1
+
 package edu.jsu.mcis.cs310;
 
 import com.github.cliftonlabs.json_simple.*;
