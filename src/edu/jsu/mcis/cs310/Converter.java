@@ -5,6 +5,9 @@ package edu.jsu.mcis.cs310;
 
 import com.github.cliftonlabs.json_simple.*;
 import com.opencsv.*;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.Arrays;
 
 public class Converter {
     
@@ -81,7 +84,11 @@ public class Converter {
         
         try {
         
-            // INSERT YOUR CODE HERE
+            CSVReader read = new CSVReader(new StringReader(csvString));
+            String[] header = read.readNext();
+            
+            JsonObject json_obj = new JsonObject();
+            json_obj.put("ColHeadings", header);
             
         }
         catch (Exception e) {
