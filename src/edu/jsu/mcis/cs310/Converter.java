@@ -91,8 +91,20 @@ public class Converter {
             json_obj.put("ColHeadings", header);
             
             JsonArray data = new JsonArray();
-            
             JsonArray prod_nums = new JsonArray();
+            
+            //read the data rows
+            String[] row;
+            while((row = read.readNext()) != null){
+                prod_nums.add(row[0]);
+                
+                //list stores current row data
+                JsonArray item = new JsonArray();
+                
+                for(int i = 1; i < header.length; i++){
+                    
+                }
+            }
             
         }
         catch (Exception e) {
