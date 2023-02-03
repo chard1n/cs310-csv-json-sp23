@@ -90,6 +90,10 @@ public class Converter {
             JsonObject json_obj = new JsonObject();
             json_obj.put("ColHeadings", header);
             
+            JsonArray data = new JsonArray();
+            
+            JsonArray prod_nums = new JsonArray();
+            
         }
         catch (Exception e) {
             e.printStackTrace();
