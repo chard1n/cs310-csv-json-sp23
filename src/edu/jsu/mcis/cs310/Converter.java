@@ -114,42 +114,41 @@ public class Converter {
             while(row != null){
                 prod_nums.add(row[0]);
                 
+                JsonArray insideData = new JsonArray();
+
                 for(int j = 1; j < row.length; j++){
                     
-                    String[] value = row.get(j);
-                    prod_nums.add(value[0]);
-                    
-                    JsonArray insideData = new JsonArray();
-                    for(int k = 1; k < value.length; k++){
-                        
-                        if(k == colHeadings.indexOf("Season") || k == colHeadings.indexOf("Episode")){
-                            insideData.add(Integer.valueOf(value[k]));
-                        }
-                        else{
-                            insideData.add(value[k]);
-                        }
+                    if(j == colHeadings.indexOf("Season") || j == colHeadings.indexOf("Episode")){
+                        insideData.add(Integer.valueOf(row[j]));
                     }
-                    
-                    data.add(insideData);
-                    
+                    else{
+                        insideData.add(row[j]);
+                    }
                         
                 }
                 
+                data.add(insideData);
+
+
+                    //get the next row
+                row = csvRead.readNext();
+                
+            }
+            
+                            
                 obj.put("ProdNums", prod_nums);
                 obj.put("ColHeadings", colHeadings);
                 obj.put("Data", data);
                 
                 //print headings
                 result = Jsoner.serialize(obj);
-                
-            }
         }
             
         
         catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return result.trim();
         
     }
@@ -161,12 +160,20 @@ public class Converter {
         
         try {
             
+            //deserialize json obj
             JsonObject jsonObj = Jsoner.deserialize(jsonString, new JsonObject());
-            JsonArray colheading = new JsonArray();
             
-            colheading = (JsonArray)(jsonObj.get("ColHeadings"));
+            //get
             
             JsonArray product_num = new JsonArray();
+            product_num = (JsonArray)(jsonObj.get("ProdNums"));
+            
+            JsonArray colheading = new JsonArray();
+            colheading = (JsonArray)(jsonObj.get("ColHeadings"));
+            
+            JsonArray data = new JsonArray();
+            data = (JsonArray)(jsonObj.get("Data"));
+            
             
             
         }
