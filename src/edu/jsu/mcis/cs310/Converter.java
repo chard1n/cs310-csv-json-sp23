@@ -161,6 +161,12 @@ public class Converter {
         
         try {
             
+            JsonObject jsonObj = Jsoner.deserialize(jsonString, new JsonObject());
+            JsonArray colheading = new JsonArray();
+            
+            colheading = (JsonArray)(jsonObj.get("ColHeadings"));
+            
+            JsonArray product_num = new JsonArray();
             
             
         }
