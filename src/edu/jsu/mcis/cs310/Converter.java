@@ -8,6 +8,7 @@ import com.opencsv.*;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.io.Reader;
 
 public class Converter {
     
@@ -83,30 +84,68 @@ public class Converter {
         String result = "{}"; // default return value; replace later!
         
         try {
-        
-            CSVReader read = new CSVReader(new StringReader(csvString));
-            String[] header = read.readNext();
             
-            JsonObject json_obj = new JsonObject();
-            json_obj.put("ColHeadings", header);
+         //readers are initialized
+            Reader read = new StringReader(csvString);
+            CSVReader csvRead = new CSVReader(read);   
             
+            
+        //make arrays 
+            JsonArray colHeadings = new JsonArray();
             JsonArray data = new JsonArray();
             JsonArray prod_nums = new JsonArray();
             
-            //read the data rows
-            String[] row;
-            while((row = read.readNext()) != null){
-                prod_nums.add(row[0]);
-                
-                //list stores current row data
-                JsonArray item = new JsonArray();
-                
-                for(int i = 1; i < header.length; i++){
-                    
-                }
+            
+            //stores headings
+            String[] row = csvRead.readNext();
+            
+            //new json object
+            JsonObject obj = new JsonObject();
+            
+            
+            for(String headings : row){
+                colHeadings.add(headings);
             }
             
+            //get the next row
+            row = csvRead.readNext();
+            
+            //while loop storing the first column in prod_num if row exists
+            while(row != null){
+                prod_nums.add(row[0]);
+                
+                for(int j = 1; j < row.length; j++){
+                    
+                    String[] value = row.get(j);
+                    prod_nums.add(value[0]);
+                    
+                    JsonArray insideData = new JsonArray();
+                    for(int k = 1; k < value.length; k++){
+                        
+                        if(k == colHeadings.indexOf("Season") || k == colHeadings.indexOf("Episode")){
+                            insideData.add(Integer.valueOf(value[k]));
+                        }
+                        else{
+                            insideData.add(value[k]);
+                        }
+                    }
+                    
+                    data.add(insideData);
+                    
+                        
+                }
+                
+                obj.put("ProdNums", prod_nums);
+                obj.put("ColHeadings", colHeadings);
+                obj.put("Data", data);
+                
+                //print headings
+                result = Jsoner.serialize(obj);
+                
+            }
         }
+            
+        
         catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,7 +161,7 @@ public class Converter {
         
         try {
             
-            // INSERT YOUR CODE HERE
+            
             
         }
         catch (Exception e) {
