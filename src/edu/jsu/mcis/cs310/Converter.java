@@ -188,8 +188,33 @@ public class Converter {
             csvwriter.writeNext(headings);
             
             
+            for(int i = 0; i < product_num.size(); i++){
+                String[] row = new String[colheading.size()];
+                JsonArray insideData = ((JsonArray)data.get(i));
+                
+                row[0] = product_num.get(i).toString();
+                
+                for(int j = 0; j < insideData.size(); j++){
+                    if(j == colheading.indexOf("Episode")-1){
+                        int num = Integer.parseInt(insideData.get(j).toString());
+                        String formatted_num = "";
+                        
+                        formatted_num = decimal_format.format(num);
+                        
+                        row[j+1] = formatted_num;
+                    }
+                    else{
+                        row[j+1] = insideData.get(j).toString();
+                    }
+                }            
+                
+                csvwriter.writeNext(row);
+                
+                
+                
+            }
             
-            
+            result = string_writer.toString();
         }
         catch (Exception e) {
             e.printStackTrace();
