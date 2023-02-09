@@ -28,7 +28,7 @@ public class JsonToCsvConverterTest {
             
             String testJsonString = Converter.csvToJson(csvString);
             JsonObject testJsonObject = Jsoner.deserialize(testJsonString, new JsonObject());
-            
+
             assertEquals(json, testJsonObject);
             
         }

@@ -9,6 +9,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.io.Reader;
+import java.text.DecimalFormat;
+
 
 public class Converter {
     
@@ -157,6 +159,7 @@ public class Converter {
     public static String jsonToCsv(String jsonString) {
         
         String result = ""; // default return value; replace later!
+        DecimalFormat decimal_format = new DecimalFormat("00");
         
         try {
             
@@ -173,6 +176,17 @@ public class Converter {
             
             JsonArray data = new JsonArray();
             data = (JsonArray)(jsonObj.get("Data"));
+            
+            StringWriter string_writer = new StringWriter();
+            CSVWriter csvwriter = new CSVWriter(string_writer, ',', '"', '\\', "\n");
+            
+            //insert the headings
+            String[] headings = new String[colheading.size()];
+            for(int i = 0; i < colheading.size(); i++){
+                headings[i] = colheading.getString(i).toString();
+            }
+            csvwriter.writeNext(headings);
+            
             
             
             
